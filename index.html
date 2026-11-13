@@ -384,6 +384,61 @@ footer{margin-top:18px}
 .brscene[data-kind="arcade"] .brside{background:linear-gradient(90deg,#100d24,#5e2870,#11152c)}
 .brscene[data-kind="darkpool"] .brfloor{background:repeating-linear-gradient(0deg,#143d50 0 28px,#4e8c98 29px 32px)}
 
+
+
+/* Грандиозное преображение после джекпота */
+#jackpotFx{position:fixed;inset:0;z-index:9999;pointer-events:none;overflow:hidden;background:transparent}
+#jackpotFx.flash{animation:jackpotFlash .72s steps(1,end) 2}
+@keyframes jackpotFlash{0%,100%{background:transparent}25%,75%{background:#fff8d8}50%{background:#fff}}
+#jackpotFx .smoke{position:absolute;inset:-12%;opacity:0;background:radial-gradient(ellipse at 12% 92%,#eee9f0df 0 10%,transparent 29%),radial-gradient(ellipse at 43% 100%,#c9c2d4d9 0 13%,transparent 32%),radial-gradient(ellipse at 76% 90%,#f5f0f7df 0 11%,transparent 30%),radial-gradient(ellipse at 96% 100%,#c9c2d4d0 0 9%,transparent 27%);filter:blur(9px);transform:translate3d(0,12%,0) scale(1.02);will-change:transform,opacity;}
+#jackpotFx.smoking .smoke{opacity:1;animation:smokeRise 3.2s ease-out forwards}
+#jackpotFx .smoke-puff{position:absolute;bottom:-18%;width:clamp(105px,18vw,235px);height:clamp(105px,18vw,235px);border-radius:50%;background:radial-gradient(circle at 38% 40%,#fffefaeb 0 8%,#ded9e7c9 35%,#aaa2b980 58%,transparent 73%);filter:blur(8px);opacity:0;transform:translate3d(0,0,0) scale(.7);will-change:transform,opacity}
+#jackpotFx.smoking .smoke-puff{animation:puffRise var(--dur,3.8s) ease-out var(--delay,0s) forwards}
+@keyframes puffRise{0%{opacity:0;transform:translate3d(0,8vh,0) scale(.65)}22%{opacity:.72}72%{opacity:.5}100%{opacity:0;transform:translate3d(var(--drift,24px),-88vh,0) scale(1.35)}}
+@keyframes smokeRise{0%{transform:translate3d(0,18%,0) scale(.86);opacity:0}20%{opacity:.88}68%{opacity:.78}100%{transform:translate3d(0,-20%,0) scale(1.16);opacity:0}}
+body.casino-mode{--bg:#071d19;--ink:#f8e8b0;--card:#12382e;--mut:#d5c28b;--ac:#d4a83f;color-scheme:dark;background-image:radial-gradient(ellipse at 50% -20%,#28705a 0,transparent 55%),linear-gradient(135deg,#061b17,#172c29 55%,#24162d);background-attachment:fixed;}
+body.casino-mode .w{filter:drop-shadow(0 8px 18px #0008)}
+body.casino-mode header{border-bottom:1px solid #d6b45b88;padding-bottom:14px}
+body.casino-mode .logo,body.casino-mode h1,body.casino-mode h2{color:#ffe7a1;text-shadow:0 2px 0 #70451c,0 0 22px #f3c65c88}
+body.casino-mode .tab,body.casino-mode .snd,body.casino-mode .chip,body.casino-mode .mood,body.casino-mode .favfilter,body.casino-mode #sort{border-color:#d7b45c;background:linear-gradient(145deg,#174b3c,#09251f);color:#ffe8a6;box-shadow:0 0 0 1px #fff2c044,0 4px 12px #0008}
+body.casino-mode .tab[aria-pressed="true"],body.casino-mode .chip[aria-pressed="true"]{background:linear-gradient(135deg,#f5d77a,#a66b27);color:#24182a}
+body.casino-mode .site,body.casino-mode .tip,body.casino-mode .pick2{background:linear-gradient(145deg,#1b5140,#102d29 60%,#33233a);border:2px solid #d8b75e;box-shadow:0 0 0 1px #fff2b044,0 8px 0 #60401f,0 14px 28px #0008;color:#fff0c4}
+body.casino-mode .site .d,body.casino-mode .tip span,body.casino-mode .lead,body.casino-mode .dd,body.casino-mode footer{color:#e4d4a7}
+body.casino-mode .cover{border-color:#d8b75e;background-image:linear-gradient(135deg,#174c3c,#4c3158)!important}
+body.casino-mode .go{background:linear-gradient(135deg,#f6df8a,#bd8536);color:#25172a}
+body.casino-mode footer{border-color:#d8b75e}
+#casinoExit{position:fixed;z-index:9998;left:18px;bottom:18px;border:2px solid #ffe7a0;border-radius:999px;padding:12px 17px;background:linear-gradient(145deg,#f9e49a,#a66c2d 55%,#f9e49a);color:#291a22;font:900 12px system-ui;letter-spacing:1px;box-shadow:0 0 0 4px #4b2d22,0 0 28px #ffd45a;cursor:pointer;animation:exitPulse 2.4s ease-in-out infinite}
+#casinoExit:before{content:'🚪 ';font-size:16px;vertical-align:-2px}
+@keyframes exitPulse{50%{box-shadow:0 0 0 4px #4b2d22,0 0 42px #ffe58b;transform:translateY(-3px)}}
+#casinoExitOverlay{position:fixed;inset:0;z-index:10001;display:grid;place-items:center;background:radial-gradient(ellipse,#f8e5a8 0,#60402e 45%,#080d0c 100%);opacity:0;pointer-events:none;transition:opacity .5s}
+#casinoExitOverlay.show{opacity:1;pointer-events:auto}
+#casinoExitOverlay .exit-door{position:relative;width:min(58vw,300px);height:min(72vh,440px);border:10px ridge #e8c56d;border-radius:12px 12px 0 0;background:linear-gradient(90deg,#174334 0 48%,#09251e 49% 51%,#174334 52%);box-shadow:0 0 0 8px #51351f,0 0 90px #ffe38a;transform:perspective(800px) rotateY(-12deg);animation:doorOpen 1.8s ease-in-out forwards}
+#casinoExitOverlay .exit-door:before{content:'THE REAL WORLD';position:absolute;left:50%;top:12%;transform:translateX(-50%);width:85%;padding:10px 2px;text-align:center;color:#ffe9a7;font:900 clamp(10px,2vw,16px) system-ui;letter-spacing:2px;border:2px solid #d9b75d;background:#102b23}
+#casinoExitOverlay .exit-door:after{content:'✦';position:absolute;right:12%;top:52%;color:#ffe18a;font-size:30px;text-shadow:0 0 20px #fff}
+#casinoExitOverlay .exit-caption{position:absolute;bottom:12%;color:#fff0bd;font:900 clamp(15px,4vw,25px) system-ui;letter-spacing:2px;text-shadow:0 3px 15px #000;text-align:center}
+@keyframes doorOpen{0%{transform:perspective(800px) rotateY(0) scale(.8)}60%{transform:perspective(800px) rotateY(-62deg) scale(1)}100%{transform:perspective(800px) rotateY(-88deg) scale(1.05)}}
+#jackpotBanner{position:fixed;z-index:10000;left:50%;top:13%;transform:translate(-50%,-20px) scale(.7);opacity:0;pointer-events:none;padding:16px 26px;border:3px solid #ffe69a;border-radius:18px;background:linear-gradient(135deg,#f8df8b,#a76a29 48%,#f8df8b);color:#321d2d;font:900 clamp(20px,5vw,34px) Unbounded,system-ui;text-align:center;box-shadow:0 0 0 5px #5d3b2c,0 0 55px #ffd45a;white-space:nowrap}
+#jackpotBanner.show{animation:bannerPop .8s cubic-bezier(.2,1.5,.4,1) forwards}
+@keyframes bannerPop{to{transform:translate(-50%,0) scale(1);opacity:1}}
+@media(prefers-reduced-motion:reduce){#jackpotFx.flash,#jackpotFx.smoking .smoke,#jackpotFx.smoking .smoke-puff,#jackpotBanner.show,#casinoExit{animation:none}#jackpotBanner.show{opacity:1;transform:translate(-50%,0)}}
+
+/* Секретный игровой автомат */
+.slot-pop{position:fixed;right:22px;bottom:22px;z-index:90;width:min(340px,calc(100vw - 28px));padding:16px;background:linear-gradient(145deg,#3b174e,#170d2b 65%);color:#fff;border:3px solid #ffd45a;border-radius:20px;box-shadow:0 0 0 5px #5a2b73,0 0 35px #ffb52e,8px 8px 0 #12091e;transform:translateY(140%) rotate(4deg);opacity:0;transition:transform .65s cubic-bezier(.2,1.5,.4,1),opacity .35s;}
+.slot-pop.show{transform:translateY(0) rotate(0);opacity:1;animation:slotGlow 1.4s ease-out 1;}
+@keyframes slotGlow{0%{filter:brightness(3);box-shadow:0 0 0 5px #fff,0 0 80px #fff}100%{filter:brightness(1);}}
+.slot-head{display:flex;align-items:center;justify-content:space-between;gap:8px;font:800 15px Unbounded,system-ui,sans-serif;color:#ffe27a;letter-spacing:.5px}
+.slot-close{border:0;border-radius:50%;width:30px;height:30px;background:#fff;color:#281039;font-size:20px;font-weight:900;cursor:pointer}
+.slot-marquee{text-align:center;margin:10px 0 12px;padding:7px;border-radius:10px;background:linear-gradient(90deg,#ffb52e,#fff0a8,#ffb52e);color:#35132d;font:900 12px system-ui;letter-spacing:2px;text-shadow:0 1px #fff}
+.slot-window{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:10px;background:#090711;border:3px solid #b77bff;border-radius:14px;box-shadow:inset 0 0 18px #000}
+.slot-reel{display:grid;place-items:center;min-height:68px;border-radius:9px;background:linear-gradient(#fff,#e8dcff);color:#26133d;font-size:38px;box-shadow:inset 0 -5px #b9a5d9}
+.slot-reel.spin{animation:reelSpin .12s linear infinite}
+@keyframes reelSpin{0%{transform:translateY(-5px);filter:blur(2px)}100%{transform:translateY(5px);filter:blur(0)}}
+.slot-actions{display:flex;align-items:center;gap:10px;margin-top:12px}
+.slot-spin{flex:1;border:2px solid #fff1a6;border-radius:12px;padding:11px 12px;background:linear-gradient(#ffdf68,#ff9d25);color:#35132d;font:900 14px system-ui;cursor:pointer;box-shadow:0 4px 0 #8e481b}
+.slot-spin:active{transform:translateY(3px);box-shadow:0 1px 0 #8e481b}
+.slot-note{margin:9px 0 0;color:#e4d4f5;font-size:12px;text-align:center}
+@media(max-width:480px){.slot-pop{right:14px;bottom:14px}}
+@media(prefers-reduced-motion:reduce){.slot-pop,.slot-pop.show,.slot-reel.spin{animation:none;transition:none}}
 </style>
 </head>
 <body>
@@ -605,7 +660,7 @@ function render(){
   $('#favfilter').setAttribute('aria-pressed',favOnly);
   saveFavorites();
 }
-$('#chips').onclick=e=>{const c=e.target.closest('.chip');if(c){f=c.dataset.f;render()}};
+$('#chips').onclick=e=>{const c=e.target.closest('.chip');if(c){f=c.dataset.f;trackSecretAction('category',f);render()}};
 $('#search').addEventListener('input',e=>{query=e.target.value.trim().toLocaleLowerCase('ru');render()});
 $('#sort').addEventListener('change',e=>{sortMode=e.target.value;render()});
 $('#favfilter').onclick=()=>{favOnly=!favOnly;render()};
@@ -810,8 +865,135 @@ function advanceBrLevel(){
   brLevel=(brLevel+1)%BR_LEVELS.length;
   showBrLevel();play('creak','sawtooth');
 }
+// Секретная комбинация: категории и переходы между вкладками.
+// Повторить её случайно практически невозможно.
+const slotSequence=[
+  ['category','horror'],['tab','t'],['tab','g'],
+  ['category','retro'],['tab','t'],['tab','g'],
+  ['category','odd'],['tab','t'],['tab','g']
+];
+let slotProgress=0,slotFound=false;
+function showSecretSlot(){
+  if(slotFound)return;
+  slotFound=true;slotProgress=0;
+  play('win');
+  const panel=document.createElement('section');
+  panel.className='slot-pop';panel.id='secretSlot';panel.setAttribute('aria-label','Секретный игровой автомат');
+  panel.innerHTML='<div class="slot-head"><span>★ LUCKY 777 ★</span><button class="slot-close" id="slotClose" aria-label="Закрыть">×</button></div><div class="slot-marquee">★ SUPER SECRET ★</div><div class="slot-window"><div class="slot-reel">🍒</div><div class="slot-reel">⭐</div><div class="slot-reel">7️⃣</div></div><div class="slot-actions"><button class="slot-spin" id="slotSpin">КРУТИТЬ БАРАБАНЫ</button></div><p class="slot-note">Секрет найден. Просто забавная пасхалка — без ставок и денег.</p>';
+  document.body.appendChild(panel);
+  requestAnimationFrame(()=>panel.classList.add('show'));
+  panel.querySelector('#slotClose').onclick=()=>{panel.classList.remove('show');setTimeout(()=>panel.remove(),500);slotFound=false;slotProgress=0};
+  panel.querySelector('#slotSpin').onclick=()=>{
+    // Разблокируем AudioContext по действию пользователя, чтобы музыка джекпота могла запуститься позже.
+    try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume()}catch(e){}
+    const icons=['🍒','🍋','🍇','🔔','⭐','7️⃣','💎','🍀'];
+    const reels=[...panel.querySelectorAll('.slot-reel')];
+    const button=panel.querySelector('#slotSpin');button.disabled=true;button.textContent='КРУТИТСЯ…';
+    const result=icons.map(()=>icons[Math.random()*icons.length|0]);
+    // Три одинаковых символа — джекпот. Все варианты символов равноправны.
+    if(Math.random()<0.035){const lucky=icons[Math.random()*icons.length|0];result.splice(0,3,lucky,lucky,lucky)}
+    reels.forEach((r,i)=>{r.classList.add('spin');setTimeout(()=>{r.classList.remove('spin');r.textContent=result[i];if(i===2){button.disabled=false;button.textContent='ЕЩЁ РАЗ';play('coin');if(result[0]===result[1]&&result[1]===result[2])triggerCasinoJackpot()}},700+i*380)});
+  };
+}
+// Лёгкий оригинальный лаунж-саундтрек на Web Audio: без внешних файлов и загрузок.
+let casinoMusicOn=true,casinoMusicMaster=null,casinoMusicTimer=null,casinoMusicStep=0;
+function casinoNote(freq,start,duration,volume,wave='sine'){
+  if(!AC||!casinoMusicMaster)return;
+  const osc=AC.createOscillator(),gain=AC.createGain();
+  osc.type=wave;osc.frequency.setValueAtTime(freq,start);
+  gain.gain.setValueAtTime(.0001,start);
+  gain.gain.linearRampToValueAtTime(volume,start+.12);
+  gain.gain.setValueAtTime(volume,start+Math.max(.13,duration-.18));
+  gain.gain.exponentialRampToValueAtTime(.0001,start+duration);
+  osc.connect(gain);gain.connect(casinoMusicMaster);
+  osc.onended=()=>{osc.disconnect();gain.disconnect()};
+  osc.start(start);osc.stop(start+duration+.03);
+}
+function scheduleCasinoPhrase(){
+  if(!casinoMusicOn||!document.body.classList.contains('casino-mode')||!AC)return;
+  const now=AC.currentTime+.08;
+  const chords=[[261.63,329.63,392,493.88],[220,261.63,329.63,392],[293.66,349.23,440,523.25],[196,246.94,293.66,349.23]];
+  const bass=[130.81,110,146.83,98],melodies=[[523.25,587.33,659.25,587.33],[493.88,440,392,440],[523.25,587.33,659.25,783.99],[587.33,523.25,493.88,392]];
+  const k=casinoMusicStep++%4;
+  chords[k].forEach((f,i)=>casinoNote(f,now,3.65,.010,'sine'));
+  for(let i=0;i<4;i++){
+    casinoNote(bass[k],now+i*.9,.72,.022,'triangle');
+    casinoNote(melodies[k][i],now+i*.9+.18,.48,.009,'sine');
+  }
+  casinoMusicTimer=setTimeout(scheduleCasinoPhrase,3900);
+}
+function startCasinoMusic(){
+  try{
+    AC=AC||new(window.AudioContext||window.webkitAudioContext)();
+    if(AC.state==='suspended')AC.resume();
+    if(!casinoMusicMaster){casinoMusicMaster=AC.createGain();casinoMusicMaster.gain.value=0;casinoMusicMaster.connect(AC.destination)}
+    casinoMusicOn=true;casinoMusicMaster.gain.cancelScheduledValues(AC.currentTime);
+    casinoMusicMaster.gain.setTargetAtTime(.72,AC.currentTime,.35);
+    clearTimeout(casinoMusicTimer);scheduleCasinoPhrase();
+  }catch(e){}
+}
+function stopCasinoMusic(){
+  casinoMusicOn=false;clearTimeout(casinoMusicTimer);
+  if(AC&&casinoMusicMaster)casinoMusicMaster.gain.setTargetAtTime(0,AC.currentTime,.12);
+}
+function toggleCasinoMusic(button){
+  if(casinoMusicOn){stopCasinoMusic();button.textContent='♫ Музыка: выкл'}
+  else{startCasinoMusic();button.textContent='♫ Музыка: вкл'}
+}
+function triggerCasinoJackpot(){
+  if(document.body.classList.contains('casino-mode'))return;
+  play('win');
+  const fx=document.createElement('div');fx.id='jackpotFx';fx.innerHTML='<div class="smoke"></div>';document.body.appendChild(fx);
+  // Дополнительные клубы дыма поднимаются с разных сторон экрана.
+  for(let i=0;i<6;i++){
+    const puff=document.createElement('i');puff.className='smoke-puff';
+    puff.style.left=([4,21,39,57,75,89][i])+'%';
+    puff.style.setProperty('--delay',(i*.12)+'s');
+    puff.style.setProperty('--dur',(2.8+(i%3)*.22)+'s');
+    puff.style.setProperty('--drift',(((i%2)?1:-1)*(16+(i%3)*12))+'px');
+    fx.appendChild(puff);
+  }
+  const banner=document.createElement('div');banner.id='jackpotBanner';banner.textContent='✦ MEGA JACKPOT ✦';document.body.appendChild(banner);
+  fx.classList.add('flash');
+  setTimeout(()=>{fx.classList.remove('flash');fx.classList.add('smoking');banner.classList.add('show')},1450);
+  setTimeout(()=>{
+    document.body.classList.add('casino-mode');
+    banner.textContent='✦ WELCOME TO THE GOLDEN CASINO ✦';
+    startCasinoMusic();
+    const music=document.createElement('button');music.id='casinoMusicToggle';music.type='button';music.textContent='♫ Музыка: вкл';
+    music.setAttribute('aria-label','Включить или выключить музыку казино');
+    music.style.cssText='position:fixed;left:14px;bottom:14px;z-index:10020;border:1px solid #e4c36a;border-radius:12px;padding:10px 13px;background:linear-gradient(145deg,#174b3c,#09251f);color:#ffe8a6;font:700 13px system-ui;box-shadow:0 4px 14px #0008;cursor:pointer';
+    music.addEventListener('click',()=>toggleCasinoMusic(music));document.body.appendChild(music);
+  },5000);
+  setTimeout(()=>{
+    fx.remove();banner.remove();
+    const exit=document.createElement('button');exit.id='casinoExit';exit.type='button';exit.textContent='ВЕРНУТЬСЯ В РЕАЛЬНОСТЬ';document.body.appendChild(exit);
+    exit.addEventListener('click',()=>{
+      if(document.getElementById('casinoExitOverlay'))return;
+      const overlay=document.createElement('div');overlay.id='casinoExitOverlay';
+      overlay.innerHTML='<div class="exit-door"></div><div class="exit-caption">ДВЕРЬ В ОБЫЧНЫЙ МИР ОТКРЫВАЕТСЯ…</div>';
+      document.body.appendChild(overlay);requestAnimationFrame(()=>overlay.classList.add('show'));
+      exit.disabled=true;
+      setTimeout(()=>{
+        document.body.classList.remove('casino-mode');
+        stopCasinoMusic();
+        document.getElementById('casinoMusicToggle')?.remove();
+        overlay.querySelector('.exit-caption').textContent='ВОЗВРАЩЕНИЕ ЗАВЕРШЕНО';
+      },1450);
+      setTimeout(()=>{overlay.remove();exit.remove()},2350);
+    });
+  },7200);
+}
+function trackSecretAction(type,value){
+  if(slotFound)return;
+  const expected=slotSequence[slotProgress];
+  if(expected&&expected[0]===type&&expected[1]===value)slotProgress++;
+  else slotProgress=(slotSequence[0][0]===type&&slotSequence[0][1]===value)?1:0;
+  if(slotProgress===slotSequence.length)showSecretSlot();
+}
 function tab(t){
   const previous=document.querySelector('.tab[aria-pressed="true"]')?.dataset.t;
+  if(previous!==t)trackSecretAction('tab',t);
   $('#g').hidden=t!=='g';$('#tips').hidden=t!=='t';
   document.querySelectorAll('.tab').forEach(b=>b.setAttribute('aria-pressed',b.dataset.t===t));
   if(document.body.classList.contains('br')&&previous&&previous!==t)advanceBrLevel();
